@@ -1,7 +1,7 @@
 # parcel-plugin-workbox-precache
 
 Parcel plugin that generates a precache manifest of the bundle and
-prepends it to a `service_worker.js` file.
+injects it in the `service_worker.js` file.
 
 ## Installation
 
@@ -18,12 +18,19 @@ _Attention: parcel-bundler has to be installed_
 ## Usage
 
 This module can be used to generate a precache manifest for use with
-workbox. It expects an output named `service_worker.js` after the
-Parcel bundler has been run. It prepends a `importScripts` of workbox
-from the Google CDN, injects the generated precache manifest and
-instructs workbox to use that manifest to precache the resources.
+workbox. It expects an asset named `service_worker.js` after the
+Parcel bundler has been run. It injects a `importScripts` of workbox
+from the Google CDN and injects a generated precache manifest as a
+constant named `precacheManifest`.
 
-Note that this plugin does not work with multiple entry assets.
+The script is injected in the head of the service worker
+file. Injected code is surrounded with the comments `//BEGIN workbox`
+and `//END workbox`, when the comments are found the code is injected
+between them. This is to make sure that `parcel dev` works as
+expected.
+
+Note that this plugin probably does not work with multiple entry
+assets.
 
 ### Example
 
@@ -47,9 +54,6 @@ navigator.serviceWorker.register('/service_worker.js');
 
 _**service_worker.js**_
 ```javascript
-workbox.core.skipWaiting();
-```
-
-```bash
-parcel index.html
+/* global self, workbox, precacheManifest */
+workbox.precacheAndRoute(precacheManifest);
 ```
