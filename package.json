@@ -1,0 +1,15 @@
+{
+  "name": "parcel-plugin-workbox-precache",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "author": "Jos van Bakel <jos.van.bakel@wearespindle.com>",
+  "contributors": [
+    "Jos van Bakel <jos.van.bakel@wearespindle.com>"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/wearespindle/parcel-plugin-workbox-precache",
+  "peerDependencies": {
+    "parcel-bundler": "^1.11.0",
+    "workbox-build": "^4.0.0"
+  }
+}
