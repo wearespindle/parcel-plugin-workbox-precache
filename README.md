@@ -31,8 +31,11 @@ _**index.html**_
 
 ```html
 <html>
-<head><script src="./index.js"></head>
-<body></body>
+<head>
+<script src="./index.js"></script>
+</head>
+<body>
+</body>
 </html>
 ```
 
