@@ -1,10 +1,13 @@
 const buildServiceWorker = require('./helpers/buildServiceWorker.js');
 
-const swFilename = 'service_worker.js';
-const precacheIgnoreFiles = ['manifest.webmanifest', swFilename];
+function precacheFilter(filename) {
+  return filename !== 'manifest.webmanifest' &&
+    !filename.startsWith('service_worker.') &&
+    !filename.endsWith('.map');
+}
 
 module.exports = function(bundler) {
   bundler.on('bundled', async (bundle) => {
-    await buildServiceWorker(bundle, swFilename, precacheIgnoreFiles);
+    await buildServiceWorker(bundle, 'service_worker.js', precacheFilter);
   });
 };

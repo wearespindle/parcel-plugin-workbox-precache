@@ -12,10 +12,10 @@ function getBundleAssets(bundle) {
   return result;
 }
 
-module.exports = async function computeBundleHashes(bundle, outDir, ignoreFiles = []) {
+module.exports = async function computeBundleHashes(bundle, outDir, precacheFilter) {
   const assets = getBundleAssets(bundle).filter(function(filename) {
     const relativeFilename = path.relative(outDir, filename);
-    return !ignoreFiles.includes(relativeFilename);
+    return precacheFilter(relativeFilename);
   });
 
   return await assets.reduce(async (prev, filename) => {
