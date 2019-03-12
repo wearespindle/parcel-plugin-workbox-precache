@@ -16,8 +16,14 @@ module.exports = async function upgradeServiceWorker(bundle, swFilename, precach
     return { url: filename, revision: hash };
   });
 
+  const vendorDir = path.join(outDir, 'vendor');
+  const relPath = await workbox.copyWorkboxLibraries(vendorDir);
+  const workboxLibDir = path.relative(outDir, path.join(vendorDir, relPath));
+  console.log(`Copied workbox libraries to ${workboxLibDir}`);
+
   const script = `
-importScripts('${workbox.getModuleURL('workbox-sw')}');
+importScripts('${workboxLibDir}/workbox-sw.js');
+workbox.setConfig({modulePathPrefix: '/${workboxLibDir}/'});
 const precacheManifest = ${JSON.stringify(precacheManifest, null, 2)};
 `;
 
