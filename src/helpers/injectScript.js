@@ -9,21 +9,12 @@ module.exports = function injectWorkbox(contents, script) {
     const start = startTag + TAG_START.length;
     const end = contents.indexOf(TAG_END, start);
     if (end !== -1) {
-      return [
-        contents.substring(0, start),
-        script,
-        contents.substring(end)
-      ].join('\n')
+      return [contents.substring(0, start), script, contents.substring(end)].join('\n');
     } else {
       console.warn('Workbox precache: no end tag found, possibly injecting twice...');
     }
   }
 
   // Inject the script in the head of the file.
-  return [
-    TAG_START,
-    script,
-    TAG_END,
-    contents
-  ].join('\n')
-}
+  return [TAG_START, script, TAG_END, contents].join('\n');
+};

@@ -10,6 +10,12 @@ const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
 module.exports = async function upgradeServiceWorker(bundle, swFilename, precacheFilter) {
+  const swFile = path.join(outDir, swFilename);
+  if (!fs.existsSync(swFile)) {
+    console.log(`Skipping workbox precache because ${swFilename} is not found.`);
+    return;
+  }
+
   const outDir = path.resolve(bundle.entryAsset.options.outDir);
   const hashes = await computeBundleHashes(bundle, outDir, precacheFilter);
   const precacheManifest = Object.entries(hashes).map(function([filename, hash]) {
@@ -27,7 +33,6 @@ workbox.setConfig({modulePathPrefix: '/${workboxLibDir}/'});
 const precacheManifest = ${JSON.stringify(precacheManifest, null, 2)};
 `;
 
-  const swFile = path.join(outDir, swFilename);
-  const contents = await readFile(swFile, {encoding: 'utf8'});
+  const contents = await readFile(swFile, { encoding: 'utf8' });
   await writeFile(swFile, injectScript(contents, script));
-}
+};
