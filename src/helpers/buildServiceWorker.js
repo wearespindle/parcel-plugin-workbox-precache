@@ -10,13 +10,13 @@ const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
 module.exports = async function upgradeServiceWorker(bundle, swFilename, precacheFilter) {
+  const outDir = path.resolve(bundle.entryAsset.options.outDir);
   const swFile = path.join(outDir, swFilename);
   if (!fs.existsSync(swFile)) {
     console.log(`Skipping workbox precache because ${swFilename} is not found.`);
     return;
   }
 
-  const outDir = path.resolve(bundle.entryAsset.options.outDir);
   const hashes = await computeBundleHashes(bundle, outDir, precacheFilter);
   const precacheManifest = Object.entries(hashes).map(function([filename, hash]) {
     return { url: filename, revision: hash };

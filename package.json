@@ -1,6 +1,6 @@
 {
   "name": "parcel-plugin-workbox-precache",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "src/index.js",
   "author": "Jos van Bakel <jos.van.bakel@wearespindle.com>",
   "contributors": [
