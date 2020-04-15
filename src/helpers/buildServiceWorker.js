@@ -23,11 +23,6 @@ module.exports = async function upgradeServiceWorker(bundle, swFilename, precach
     return { url: `${bundle.entryAsset.options.publicURL}/${filename}`, revision: hash };
   });
 
-  const vendorDir = path.join(outDir, 'vendor');
-  const relPath = await workbox.copyWorkboxLibraries(vendorDir);
-  const workboxLibDir = path.relative(outDir, path.join(vendorDir, relPath));
-  console.log(`Copied workbox libraries to ${workboxLibDir}`);
-
   const script = `
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 const precacheManifest = ${JSON.stringify(precacheManifest, null, 2)};
