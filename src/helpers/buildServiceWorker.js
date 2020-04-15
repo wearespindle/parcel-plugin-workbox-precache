@@ -20,7 +20,7 @@ module.exports = async function upgradeServiceWorker(bundle, swFilename, precach
 
   const hashes = await computeBundleHashes(bundle, outDir, precacheFilter);
   const precacheManifest = Object.entries(hashes).map(function([filename, hash]) {
-    return { url: `${bundle.entryAsset.options.publicURL}/${filename}`, revision: hash };
+    return { url: `${bundle.entryAsset.options.publicURL ? bundle.entryAsset.options.publicURL + '/' : ''}${filename}`, revision: hash };
   });
 
   const script = `
